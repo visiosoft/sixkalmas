@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Islamic theme colors -->
+    <color name="primary">#1B5E20</color>         <!-- Dark Green -->
+    <color name="primary_dark">#0D3311</color>    <!-- Darker Green -->
+    <color name="primary_light">#388E3C</color>   <!-- Light Green -->
+    <color name="secondary">#81C784</color>       <!-- Accent Green -->
+    <color name="secondary_dark">#519657</color>  <!-- Darker Accent -->
+    <color name="secondary_light">#B2FAB4</color> <!-- Light Accent -->
+    
+    <!-- Text colors -->
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    
+    <!-- System colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- Background colors -->
+    <color name="background">#FFFFFF</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="error">#B00020</color>
+</resources>
