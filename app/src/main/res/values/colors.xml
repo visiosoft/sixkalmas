@@ -20,4 +20,6 @@
     <color name="background">#FFFFFF</color>
     <color name="surface">#FFFFFF</color>
     <color name="error">#B00020</color>
+    
+    <color name="ic_launcher_background">#FFFFFF</color>
 </resources>
