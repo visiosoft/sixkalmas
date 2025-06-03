@@ -4,9 +4,9 @@
     <color name="primary">#1B5E20</color>         <!-- Dark Green -->
     <color name="primary_dark">#0D3311</color>    <!-- Darker Green -->
     <color name="primary_light">#388E3C</color>   <!-- Light Green -->
-    <color name="secondary">#81C784</color>       <!-- Accent Green -->
-    <color name="secondary_dark">#519657</color>  <!-- Darker Accent -->
-    <color name="secondary_light">#B2FAB4</color> <!-- Light Accent -->
+    <color name="secondary">#D4AF37</color>       <!-- Gold -->
+    <color name="secondary_dark">#B8860B</color>  <!-- Dark Gold -->
+    <color name="secondary_light">#FFD700</color> <!-- Light Gold -->
     
     <!-- Text colors -->
     <color name="text_primary">#212121</color>
@@ -17,9 +17,20 @@
     <color name="white">#FFFFFFFF</color>
     
     <!-- Background colors -->
-    <color name="background">#FFFFFF</color>
+    <color name="background">#F5F5F5</color>
     <color name="surface">#FFFFFF</color>
     <color name="error">#B00020</color>
+    
+    <!-- Dark theme specific colors -->
+    <color name="dark_background">#121212</color>
+    <color name="dark_surface">#1E1E1E</color>
+    <color name="dark_text_primary">#FFFFFF</color>
+    <color name="dark_text_secondary">#B3FFFFFF</color>
+    
+    <!-- Islamic pattern colors -->
+    <color name="pattern_primary">#1B5E20</color>
+    <color name="pattern_secondary">#D4AF37</color>
+    <color name="pattern_background">#F5F5F5</color>
     
     <color name="ic_launcher_background">#FFFFFF</color>
 </resources>

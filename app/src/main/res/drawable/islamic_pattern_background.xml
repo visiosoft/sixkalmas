@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    
+    <!-- Background -->
+    <path
+        android:fillColor="@color/pattern_background"
+        android:pathData="M0,0h200v200h-200z" />
+    
+    <!-- Islamic geometric pattern -->
+    <path
+        android:fillColor="@color/pattern_primary"
+        android:fillAlpha="0.05"
+        android:pathData="M100,0 L200,100 L100,200 L0,100 Z" />
+    
+    <path
+        android:fillColor="@color/pattern_secondary"
+        android:fillAlpha="0.05"
+        android:pathData="M50,50 L150,50 L150,150 L50,150 Z" />
+    
+    <path
+        android:strokeColor="@color/pattern_primary"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.1"
+        android:pathData="M0,100 L200,100 M100,0 L100,200" />
+</vector> 
