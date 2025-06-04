@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+
+    <!-- Outer circle with gradient -->
+    <path
+        android:fillColor="#1A000000"
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="2"
+        android:pathData="M60,60 m-58,0 a58,58 0 1,0 116,0 a58,58 0 1,0 -116,0" />
+
+    <!-- Inner circle -->
+    <path
+        android:fillColor="#0D000000"
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="1"
+        android:pathData="M60,60 m-55,0 a55,55 0 1,0 110,0 a55,55 0 1,0 -110,0" />
+
+    <!-- Direction arrow -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M60,10 L75,60 L60,50 L45,60 Z" />
+
+    <!-- Center dot -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M60,60 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" />
+
+    <!-- Direction markers -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="1"
+        android:pathData="M60,5 L60,15" /> <!-- N -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="1"
+        android:pathData="M105,60 L115,60" /> <!-- E -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="1"
+        android:pathData="M60,105 L60,115" /> <!-- S -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="1"
+        android:pathData="M5,60 L15,60" /> <!-- W -->
+
+</vector> 

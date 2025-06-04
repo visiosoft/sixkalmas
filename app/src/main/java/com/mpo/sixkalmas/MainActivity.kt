@@ -1,6 +1,8 @@
 package com.mpo.sixkalmas
 
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Bundle
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
@@ -22,9 +24,14 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.gms.ads.nativead.NativeAdView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.button.MaterialButton
 import com.mpo.sixkalmas.model.Kalma
 import java.util.*
+import android.app.Dialog
+import android.view.Window
+import android.widget.Button
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
@@ -32,6 +39,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var kalmasContent: NestedScrollView
     private lateinit var topBanner: LinearLayout
     private lateinit var nativeAdContainer: FrameLayout
+    private lateinit var bottomNavigation: BottomNavigationView
     
     private lateinit var titleTextView: TextView
     private lateinit var arabicTextView: TextView
@@ -98,6 +106,10 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         kalmasContent = findViewById(R.id.kalmasContent)
         topBanner = findViewById(R.id.topBanner)
         nativeAdContainer = findViewById(R.id.nativeAdContainer)
+        bottomNavigation = findViewById(R.id.bottomNavigation)
+        
+        // Hide bottom navigation initially
+        bottomNavigation.visibility = View.GONE
         
         titleTextView = findViewById(R.id.kalmaTitle)
         arabicTextView = findViewById(R.id.kalmaArabic)
@@ -153,11 +165,24 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             )
         )
 
+        // Set up bottom navigation
+        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigation.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_more -> {
+                    showQiblaFinderBanner()
+                    true
+                }
+                else -> false
+            }
+        }
+
         // Set up click listeners
         welcomeScreen.setOnClickListener {
             welcomeScreen.visibility = View.GONE
             kalmasContent.visibility = View.VISIBLE
             topBanner.visibility = View.VISIBLE
+            bottomNavigation.visibility = View.VISIBLE
             currentKalmaIndex = 0
             updateKalmaDisplay()
         }
@@ -222,6 +247,9 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         findViewById<ImageButton>(R.id.increaseTextSizeButton).setOnClickListener {
             adjustTextSize(true)
         }
+
+        // Initialize AdManager
+        AdManager.getInstance().initialize(this)
     }
 
     private fun loadInterstitialAd() {
@@ -542,5 +570,23 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         kalmaArabic.textSize = originalArabicSize * currentTextSize / resources.displayMetrics.density
         kalmaTranslation.textSize = originalTranslationSize * currentTextSize / resources.displayMetrics.density
         translationHeading.textSize = originalHeadingSize * currentTextSize / resources.displayMetrics.density
+    }
+
+    private fun showQiblaFinderBanner() {
+        val dialog = BottomSheetDialog(this)
+        val view = layoutInflater.inflate(R.layout.qibla_finder_banner, null)
+        dialog.setContentView(view)
+
+        // Set up the Qibla finder button click
+        view.findViewById<Button>(R.id.qiblaFinderButton).setOnClickListener {
+            dialog.dismiss()
+            // Show interstitial ad before opening Qibla finder
+            AdManager.getInstance().showInterstitialAd(this) {
+                // This will be called when the ad is closed or fails to show
+                startActivity(Intent(this, QiblaFinderActivity::class.java))
+            }
+        }
+
+        dialog.show()
     }
 }

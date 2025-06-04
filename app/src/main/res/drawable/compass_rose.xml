@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="300dp"
+    android:viewportWidth="300"
+    android:viewportHeight="300">
+
+    <!-- Outer ring -->
+    <path
+        android:fillColor="#000000"
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="4"
+        android:pathData="M150,150 m-148,0 a148,148 0 1,0 296,0 a148,148 0 1,0 -296,0" />
+
+    <!-- Inner ring -->
+    <path
+        android:fillColor="#1A1A1A"
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="2"
+        android:pathData="M150,150 m-140,0 a140,140 0 1,0 280,0 a140,140 0 1,0 -280,0" />
+
+    <!-- Degree markers -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="2"
+        android:pathData="M150,10 L150,25" /> <!-- 0° -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="2"
+        android:pathData="M275,150 L260,150" /> <!-- 90° -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="2"
+        android:pathData="M150,275 L150,290" /> <!-- 180° -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="2"
+        android:pathData="M25,150 L40,150" /> <!-- 270° -->
+
+    <!-- Secondary degree markers -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="1"
+        android:pathData="M150,20 L150,30" /> <!-- 45° -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="1"
+        android:pathData="M270,150 L260,150" /> <!-- 135° -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="1"
+        android:pathData="M150,270 L150,280" /> <!-- 225° -->
+    <path
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="1"
+        android:pathData="M30,150 L40,150" /> <!-- 315° -->
+
+    <!-- Qibla indicator (Kaaba) -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M150,15 L170,150 L150,140 L130,150 Z" />
+
+    <!-- North arrow -->
+    <path
+        android:fillColor="#FF0000"
+        android:pathData="M150,285 L170,150 L150,160 L130,150 Z" />
+
+    <!-- East arrow -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M285,150 L150,170 L160,150 L150,130 Z" />
+
+    <!-- West arrow -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M15,150 L150,130 L140,150 L150,170 Z" />
+
+    <!-- Cardinal direction labels -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M145,20 L155,20 L155,30 L145,30 Z" /> <!-- N -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M145,270 L155,270 L155,280 L145,280 Z" /> <!-- S -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M270,145 L280,145 L280,155 L270,155 Z" /> <!-- E -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M20,145 L30,145 L30,155 L20,155 Z" /> <!-- W -->
+
+    <!-- Center circle -->
+    <path
+        android:fillColor="#000000"
+        android:strokeColor="#4CAF50"
+        android:strokeWidth="2"
+        android:pathData="M150,150 m-15,0 a15,15 0 1,0 30,0 a15,15 0 1,0 -30,0" />
+
+    <!-- Inner center dot -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M150,150 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" />
+
+</vector> 

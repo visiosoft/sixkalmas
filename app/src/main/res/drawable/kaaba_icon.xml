@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Kaaba base -->
+    <path
+        android:fillColor="#4CAF50"
+        android:pathData="M12,24 L36,24 L36,36 L12,36 Z" />
+
+    <!-- Kaaba top -->
+    <path
+        android:fillColor="#388E3C"
+        android:pathData="M12,24 L36,24 L36,28 L12,28 Z" />
+
+    <!-- Door -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M20,28 L28,28 L28,36 L20,36 Z" />
+
+    <!-- Black Stone -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M12,24 L16,24 L16,28 L12,28 Z" />
+
+</vector> 
