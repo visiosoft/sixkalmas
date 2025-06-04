@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_more"
-        android:title="More"
-        android:icon="@null" />
+        android:id="@+id/navigation_qibla"
+        android:title="Qibla"
+        android:icon="@drawable/ic_qibla" />
+    
+    <item
+        android:id="@+id/navigation_kalma"
+        android:title="6 Kalma"
+        android:icon="@drawable/ic_kalma" />
+    
+    <item
+        android:id="@+id/navigation_prayer"
+        android:title="Prayer"
+        android:icon="@drawable/ic_prayer" />
 </menu> 

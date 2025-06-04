@@ -324,15 +324,14 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="72dp"
         android:layout_gravity="bottom"
-        android:background="@drawable/top_banner_gradient"
-        app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/white"
-        app:itemTextAppearanceActive="@style/MoreButtonText"
-        app:itemTextAppearanceInactive="@style/MoreButtonText"
-        app:itemRippleColor="#33FFFFFF"
-        app:itemBackground="@drawable/more_button_background"
+        android:background="?attr/colorSurface"
+        app:itemIconSize="28dp"
+        app:itemIconTint="@color/nav_item_color"
+        app:itemTextColor="@color/nav_item_color"
+        app:itemRippleColor="@color/ripple_color"
+        app:itemBackground="@drawable/bottom_nav_item_background"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav_menu" />
 

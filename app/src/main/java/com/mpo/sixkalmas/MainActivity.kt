@@ -108,8 +108,9 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         nativeAdContainer = findViewById(R.id.nativeAdContainer)
         bottomNavigation = findViewById(R.id.bottomNavigation)
         
-        // Hide bottom navigation initially
+        // Hide bottom navigation and top banner initially
         bottomNavigation.visibility = View.GONE
+        topBanner.visibility = View.GONE
         
         titleTextView = findViewById(R.id.kalmaTitle)
         arabicTextView = findViewById(R.id.kalmaArabic)
@@ -165,18 +166,6 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             )
         )
 
-        // Set up bottom navigation
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottomNavigation)
-        bottomNavigation.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.navigation_more -> {
-                    showQiblaFinderBanner()
-                    true
-                }
-                else -> false
-            }
-        }
-
         // Set up click listeners
         welcomeScreen.setOnClickListener {
             welcomeScreen.visibility = View.GONE
@@ -187,6 +176,40 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             updateKalmaDisplay()
         }
 
+        // Initialize bottom navigation
+        bottomNavigation = findViewById(R.id.bottomNavigation)
+        bottomNavigation.visibility = View.GONE // Hide initially
+        bottomNavigation.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_qibla -> {
+                    // Show interstitial ad before opening Qibla finder
+                    AdManager.getInstance().showInterstitialAd(this) {
+                        startActivity(Intent(this, QiblaFinderActivity::class.java))
+                    }
+                    false // Don't change selection until ad is shown
+                }
+                R.id.navigation_kalma -> {
+                    // Show ad before staying in Kalma view
+                    AdManager.getInstance().showInterstitialAd(this) {
+                        // No action needed, already in Kalma view
+                    }
+                    false // Don't change selection until ad is shown
+                }
+                R.id.navigation_prayer -> {
+                    // Show ad before showing prayer timings message
+                    AdManager.getInstance().showInterstitialAd(this) {
+                        Toast.makeText(this, "Prayer Timings coming soon!", Toast.LENGTH_SHORT).show()
+                    }
+                    false // Don't change selection until ad is shown
+                }
+                else -> false
+            }
+        }
+
+        // Set Kalma as selected
+        bottomNavigation.selectedItemId = R.id.navigation_kalma
+
+        // Set up click listeners
         previousButton.setOnClickListener {
             if (currentKalmaIndex > 0) {
                 stopSpeaking()

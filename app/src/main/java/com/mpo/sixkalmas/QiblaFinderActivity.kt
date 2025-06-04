@@ -13,12 +13,14 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlin.math.roundToInt
 
 class QiblaFinderActivity : AppCompatActivity(), SensorEventListener, LocationListener {
@@ -29,6 +31,7 @@ class QiblaFinderActivity : AppCompatActivity(), SensorEventListener, LocationLi
     private lateinit var kaabaIcon: ImageView
     private lateinit var sensorManager: SensorManager
     private lateinit var locationManager: LocationManager
+    private lateinit var topBanner: LinearLayout
     private var currentDegree = 0f
     private var qiblaBearing = 0f
     private var currentLocation: Location? = null
@@ -44,6 +47,7 @@ class QiblaFinderActivity : AppCompatActivity(), SensorEventListener, LocationLi
     private var lastLocationUpdateTime = 0L
     private val LOCATION_UPDATE_INTERVAL = 100L // Update location every 100ms
     private val LOCATION_UPDATE_DISTANCE = 0.1f // Update for very small changes
+    private lateinit var bottomNavigation: BottomNavigationView
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST = 1
@@ -61,7 +65,39 @@ class QiblaFinderActivity : AppCompatActivity(), SensorEventListener, LocationLi
         qiblaArrow = findViewById(R.id.qiblaArrow)
         accuracyIndicator = findViewById(R.id.accuracyIndicator)
         kaabaIcon = findViewById(R.id.kaabaIcon)
-        val backButton = findViewById<MaterialButton>(R.id.backButton)
+        topBanner = findViewById(R.id.topBanner)
+        bottomNavigation = findViewById(R.id.bottomNavigation)
+
+        // Initialize bottom navigation
+        bottomNavigation.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_qibla -> {
+                    // Show ad before staying in Qibla finder
+                    AdManager.getInstance().showInterstitialAd(this) {
+                        // No action needed, already in Qibla finder
+                    }
+                    false // Don't change selection until ad is shown
+                }
+                R.id.navigation_kalma -> {
+                    // Show ad before going back to main activity
+                    AdManager.getInstance().showInterstitialAd(this) {
+                        finish()
+                    }
+                    false // Don't change selection until ad is shown
+                }
+                R.id.navigation_prayer -> {
+                    // Show ad before showing prayer timings message
+                    AdManager.getInstance().showInterstitialAd(this) {
+                        Toast.makeText(this, "Prayer Timings coming soon!", Toast.LENGTH_SHORT).show()
+                    }
+                    false // Don't change selection until ad is shown
+                }
+                else -> false
+            }
+        }
+
+        // Set Qibla as selected
+        bottomNavigation.selectedItemId = R.id.navigation_qibla
 
         // Initialize sensor manager
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -70,11 +106,6 @@ class QiblaFinderActivity : AppCompatActivity(), SensorEventListener, LocationLi
 
         // Initialize location manager
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-
-        // Set up back button
-        backButton.setOnClickListener {
-            finish()
-        }
 
         // Check and request location permission
         if (checkLocationPermission()) {

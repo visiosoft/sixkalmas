@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Islamic theme colors -->
-    <color name="primary">#1B5E20</color>         <!-- Dark Green -->
-    <color name="primary_dark">#0D3311</color>    <!-- Darker Green -->
-    <color name="primary_light">#388E3C</color>   <!-- Light Green -->
+    <color name="primary">#66BB6A</color>         <!-- Bright Green -->
+    <color name="primary_dark">#43A047</color>    <!-- Medium Green -->
+    <color name="primary_light">#81C784</color>   <!-- Light Green -->
     <color name="secondary">#D4AF37</color>       <!-- Gold -->
     <color name="secondary_dark">#B8860B</color>  <!-- Dark Gold -->
     <color name="secondary_light">#FFD700</color> <!-- Light Gold -->
+    
+    <!-- Navigation colors -->
+    <color name="nav_item_selected">#66BB6A</color>
+    <color name="nav_item_unselected">#757575</color>
     
     <!-- Text colors -->
     <color name="text_primary">#212121</color>
@@ -33,4 +37,7 @@
     <color name="pattern_background">#F5F5F5</color>
     
     <color name="ic_launcher_background">#FFFFFF</color>
+    
+    <!-- New ripple color -->
+    <color name="ripple_color">#1A4CAF50</color>
 </resources>
