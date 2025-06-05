@@ -55,39 +55,19 @@
         android:strokeWidth="1"
         android:pathData="M30,150 L40,150" /> <!-- 315° -->
 
-    <!-- Qibla indicator (Kaaba) -->
-    <path
-        android:fillColor="#4CAF50"
-        android:pathData="M150,15 L170,150 L150,140 L130,150 Z" />
-
-    <!-- North arrow -->
+    <!-- Metallic needles -->
     <path
         android:fillColor="#FF0000"
-        android:pathData="M150,285 L170,150 L150,160 L130,150 Z" />
-
-    <!-- East arrow -->
+        android:pathData="M150,150 L150,20 L160,30 L150,40 L140,30 Z" /> <!-- North -->
     <path
-        android:fillColor="#4CAF50"
-        android:pathData="M285,150 L150,170 L160,150 L150,130 Z" />
-
-    <!-- West arrow -->
+        android:fillColor="#E0E0E0"
+        android:pathData="M150,150 L280,150 L270,160 L260,150 L270,140 Z" /> <!-- East -->
     <path
-        android:fillColor="#4CAF50"
-        android:pathData="M15,150 L150,130 L140,150 L150,170 Z" />
-
-    <!-- Cardinal direction labels -->
+        android:fillColor="#E0E0E0"
+        android:pathData="M150,150 L150,280 L140,270 L150,260 L160,270 Z" /> <!-- South -->
     <path
-        android:fillColor="#4CAF50"
-        android:pathData="M145,20 L155,20 L155,30 L145,30 Z" /> <!-- N -->
-    <path
-        android:fillColor="#4CAF50"
-        android:pathData="M145,270 L155,270 L155,280 L145,280 Z" /> <!-- S -->
-    <path
-        android:fillColor="#4CAF50"
-        android:pathData="M270,145 L280,145 L280,155 L270,155 Z" /> <!-- E -->
-    <path
-        android:fillColor="#4CAF50"
-        android:pathData="M20,145 L30,145 L30,155 L20,155 Z" /> <!-- W -->
+        android:fillColor="#E0E0E0"
+        android:pathData="M150,150 L20,150 L30,140 L40,150 L30,160 Z" /> <!-- West -->
 
     <!-- Center circle -->
     <path

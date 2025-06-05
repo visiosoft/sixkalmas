@@ -77,31 +77,31 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Initialize AdMob
-        MobileAds.initialize(this) { initializationStatus ->
-            // Load native ad after initialization
-            loadNativeAd()
-            // Load interstitial ad
-            loadInterstitialAd()
-        }
-
-        // Initialize SharedPreferences
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-        isDarkMode = sharedPreferences.getBoolean(THEME_MODE, false)
-        
-        // Apply theme
-        AppCompatDelegate.setDefaultNightMode(
-            if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES
-            else AppCompatDelegate.MODE_NIGHT_NO
-        )
-
         setContentView(R.layout.activity_main)
 
-        // Initialize Text-to-Speech
-        textToSpeech = TextToSpeech(this, this)
+        // Initialize views first
+        initializeViews()
+        
+        // Initialize Text-to-Speech in background
+        initializeTextToSpeech()
+        
+        // Initialize SharedPreferences
+        initializePreferences()
+        
+        // Initialize AdMob after UI is ready
+        initializeAds()
+        
+        // Set up click listeners
+        setupClickListeners()
+        
+        // Create list of Kalmas
+        initializeKalmas()
+        
+        // Initialize bottom navigation
+        setupBottomNavigation()
+    }
 
-        // Initialize views
+    private fun initializeViews() {
         welcomeScreen = findViewById(R.id.welcomeScreen)
         kalmasContent = findViewById(R.id.kalmasContent)
         topBanner = findViewById(R.id.topBanner)
@@ -122,51 +122,37 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         switchLanguageButton = findViewById(R.id.switchLanguageButton)
         pageIndicator = findViewById(R.id.pageIndicator)
         themeToggleButton = findViewById(R.id.themeToggleButton)
+    }
+
+    private fun initializeTextToSpeech() {
+        textToSpeech = TextToSpeech(this, this)
+    }
+
+    private fun initializePreferences() {
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        isDarkMode = sharedPreferences.getBoolean(THEME_MODE, false)
+        
+        // Apply theme
+        AppCompatDelegate.setDefaultNightMode(
+            if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES
+            else AppCompatDelegate.MODE_NIGHT_NO
+        )
         
         // Set initial theme toggle button state
         themeToggleButton.isActivated = isDarkMode
+    }
 
-        // Create list of Kalmas
-        kalmas = listOf(
-            Kalma(
-                getString(R.string.kalma_1_title),
-                getString(R.string.kalma_1_arabic),
-                getString(R.string.kalma_1_translation),
-                getString(R.string.kalma_1_urdu)
-            ),
-            Kalma(
-                getString(R.string.kalma_2_title),
-                getString(R.string.kalma_2_arabic),
-                getString(R.string.kalma_2_translation),
-                getString(R.string.kalma_2_urdu)
-            ),
-            Kalma(
-                getString(R.string.kalma_3_title),
-                getString(R.string.kalma_3_arabic),
-                getString(R.string.kalma_3_translation),
-                getString(R.string.kalma_3_urdu)
-            ),
-            Kalma(
-                getString(R.string.kalma_4_title),
-                getString(R.string.kalma_4_arabic),
-                getString(R.string.kalma_4_translation),
-                getString(R.string.kalma_4_urdu)
-            ),
-            Kalma(
-                getString(R.string.kalma_5_title),
-                getString(R.string.kalma_5_arabic),
-                getString(R.string.kalma_5_translation),
-                getString(R.string.kalma_5_urdu)
-            ),
-            Kalma(
-                getString(R.string.kalma_6_title),
-                getString(R.string.kalma_6_arabic),
-                getString(R.string.kalma_6_translation),
-                getString(R.string.kalma_6_urdu)
-            )
-        )
+    private fun initializeAds() {
+        // Initialize AdMob
+        MobileAds.initialize(this) { initializationStatus ->
+            // Load native ad after initialization
+            loadNativeAd()
+            // Load interstitial ad
+            loadInterstitialAd()
+        }
+    }
 
-        // Set up click listeners
+    private fun setupClickListeners() {
         welcomeScreen.setOnClickListener {
             welcomeScreen.visibility = View.GONE
             kalmasContent.visibility = View.VISIBLE
@@ -174,42 +160,9 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             bottomNavigation.visibility = View.VISIBLE
             currentKalmaIndex = 0
             updateKalmaDisplay()
+            bottomNavigation.selectedItemId = R.id.navigation_kalma
         }
 
-        // Initialize bottom navigation
-        bottomNavigation = findViewById(R.id.bottomNavigation)
-        bottomNavigation.visibility = View.GONE // Hide initially
-        bottomNavigation.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.navigation_qibla -> {
-                    // Show interstitial ad before opening Qibla finder
-                    AdManager.getInstance().showInterstitialAd(this) {
-                        startActivity(Intent(this, QiblaFinderActivity::class.java))
-                    }
-                    false // Don't change selection until ad is shown
-                }
-                R.id.navigation_kalma -> {
-                    // Show ad before staying in Kalma view
-                    AdManager.getInstance().showInterstitialAd(this) {
-                        // No action needed, already in Kalma view
-                    }
-                    false // Don't change selection until ad is shown
-                }
-                R.id.navigation_prayer -> {
-                    // Show ad before showing prayer timings message
-                    AdManager.getInstance().showInterstitialAd(this) {
-                        Toast.makeText(this, "Prayer Timings coming soon!", Toast.LENGTH_SHORT).show()
-                    }
-                    false // Don't change selection until ad is shown
-                }
-                else -> false
-            }
-        }
-
-        // Set Kalma as selected
-        bottomNavigation.selectedItemId = R.id.navigation_kalma
-
-        // Set up click listeners
         previousButton.setOnClickListener {
             if (currentKalmaIndex > 0) {
                 stopSpeaking()
@@ -270,9 +223,73 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         findViewById<ImageButton>(R.id.increaseTextSizeButton).setOnClickListener {
             adjustTextSize(true)
         }
+    }
 
-        // Initialize AdManager
-        AdManager.getInstance().initialize(this)
+    private fun initializeKalmas() {
+        kalmas = listOf(
+            Kalma(
+                getString(R.string.kalma_1_title),
+                getString(R.string.kalma_1_arabic),
+                getString(R.string.kalma_1_translation),
+                getString(R.string.kalma_1_urdu)
+            ),
+            Kalma(
+                getString(R.string.kalma_2_title),
+                getString(R.string.kalma_2_arabic),
+                getString(R.string.kalma_2_translation),
+                getString(R.string.kalma_2_urdu)
+            ),
+            Kalma(
+                getString(R.string.kalma_3_title),
+                getString(R.string.kalma_3_arabic),
+                getString(R.string.kalma_3_translation),
+                getString(R.string.kalma_3_urdu)
+            ),
+            Kalma(
+                getString(R.string.kalma_4_title),
+                getString(R.string.kalma_4_arabic),
+                getString(R.string.kalma_4_translation),
+                getString(R.string.kalma_4_urdu)
+            ),
+            Kalma(
+                getString(R.string.kalma_5_title),
+                getString(R.string.kalma_5_arabic),
+                getString(R.string.kalma_5_translation),
+                getString(R.string.kalma_5_urdu)
+            ),
+            Kalma(
+                getString(R.string.kalma_6_title),
+                getString(R.string.kalma_6_arabic),
+                getString(R.string.kalma_6_translation),
+                getString(R.string.kalma_6_urdu)
+            )
+        )
+    }
+
+    private fun setupBottomNavigation() {
+        bottomNavigation.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_qibla -> {
+                    // Show ad before going to Qibla finder
+                    showInterstitialAd {
+                        startActivity(Intent(this, QiblaFinderActivity::class.java))
+                    }
+                    false // Don't change selection until ad is shown
+                }
+                R.id.navigation_kalma -> {
+                    // Already in Kalma mode
+                    true
+                }
+                R.id.navigation_prayer -> {
+                    // Show ad before going to Prayer times
+                    showInterstitialAd {
+                        startActivity(Intent(this, PrayerTimesActivity::class.java))
+                    }
+                    false // Don't change selection until ad is shown
+                }
+                else -> false
+            }
+        }
     }
 
     private fun loadInterstitialAd() {
