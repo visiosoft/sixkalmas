@@ -271,88 +271,24 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Native Ad Card -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/nativeAdCard"
+            <!-- Native Ad Container -->
+            <FrameLayout
+                android:id="@+id/nativeAdContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardElevation="4dp"
-                app:cardCornerRadius="8dp">
+                android:layout_marginTop="16dp"
+                android:minHeight="100dp">
 
-                <com.google.android.gms.ads.nativead.NativeAdView
+                <include
                     android:id="@+id/nativeAdView"
+                    layout="@layout/native_ad_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="80dp">
+                    android:visibility="gone" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:id="@+id/adIcon"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_marginEnd="8dp"
-                            android:contentDescription="Ad Icon"/>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/adHeadline"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:textSize="16sp"
-                                android:textStyle="bold"/>
-
-                            <TextView
-                                android:id="@+id/adAdvertiser"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:textSize="14sp"/>
-
-                        </LinearLayout>
-
-                        <Button
-                            android:id="@+id/adCallToAction"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@android:color/white"
-                            android:backgroundTint="@color/design_default_color_primary"/>
-
-                    </LinearLayout>
-
-                </com.google.android.gms.ads.nativead.NativeAdView>
-
-            </com.google.android.material.card.MaterialCardView>
+            </FrameLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <!-- Bottom Navigation -->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/white"
-        android:elevation="8dp"
-        app:itemIconSize="24dp"
-        app:itemIconTint="@color/bottom_nav_item_color"
-        app:itemTextAppearanceActive="@style/BottomNavigationTextAppearance"
-        app:itemTextAppearanceInactive="@style/BottomNavigationTextAppearance"
-        app:itemTextColor="@color/bottom_nav_item_color"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout> 

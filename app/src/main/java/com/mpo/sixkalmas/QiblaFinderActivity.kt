@@ -52,7 +52,6 @@ class QiblaFinderActivity : AppCompatActivity(), SensorEventListener, LocationLi
     private var lastLocationUpdateTime = 0L
     private val LOCATION_UPDATE_INTERVAL = 100L // Update location every 100ms
     private val LOCATION_UPDATE_DISTANCE = 0.1f // Update for very small changes
-    private lateinit var bottomNavigation: BottomNavigationView
     private var qiblaLocation: Location? = null
     private var lastAccelerometer = FloatArray(3)
     private var lastMagnetometer = FloatArray(3)
@@ -93,36 +92,6 @@ class QiblaFinderActivity : AppCompatActivity(), SensorEventListener, LocationLi
         qiblaArrow = binding.qiblaArrow
         accuracyIndicator = binding.accuracyIndicator
         kaabaIcon = binding.kaabaIcon
-        bottomNavigation = binding.bottomNavigation
-
-        // Set Qibla as selected first
-        bottomNavigation.selectedItemId = R.id.navigation_qibla
-
-        // Initialize bottom navigation
-        bottomNavigation.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.navigation_qibla -> {
-                    // Already in Qibla finder
-                    true
-                }
-                R.id.navigation_kalma -> {
-                    // Show ad before going back to main activity
-                    showInterstitialAd {
-                        finish()
-                    }
-                    false // Don't change selection until ad is shown
-                }
-                R.id.navigation_prayer -> {
-                    // Show ad before going to Prayer times
-                    showInterstitialAd {
-                        startActivity(Intent(this, PrayerTimesActivity::class.java))
-                        finish()
-                    }
-                    false // Don't change selection until ad is shown
-                }
-                else -> false
-            }
-        }
     }
 
     private fun initializeSensors() {

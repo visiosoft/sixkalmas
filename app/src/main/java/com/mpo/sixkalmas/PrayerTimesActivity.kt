@@ -30,7 +30,6 @@ import java.util.*
 
 class PrayerTimesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPrayerTimesBinding
-    private lateinit var bottomNavigation: BottomNavigationView
     private var mInterstitialAd: InterstitialAd? = null
     private var nativeAd: NativeAd? = null
     private val timeFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
@@ -55,6 +54,9 @@ class PrayerTimesActivity : AppCompatActivity() {
         binding = ActivityPrayerTimesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize MediaPlayer
+        mediaPlayer = MediaPlayer()
+
         // Initialize Mobile Ads SDK
         MobileAds.initialize(this)
 
@@ -64,35 +66,6 @@ class PrayerTimesActivity : AppCompatActivity() {
 
         // Register alarm receiver
         registerReceiver(alarmReceiver, IntentFilter(ALARM_ACTION))
-
-        // Set Prayer Times as selected
-        binding.bottomNavigation.selectedItemId = R.id.navigation_prayer
-
-        // Initialize bottom navigation
-        binding.bottomNavigation.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.navigation_qibla -> {
-                    // Show ad before going to Qibla finder
-                    showInterstitialAd {
-                        startActivity(Intent(this, QiblaFinderActivity::class.java))
-                        finish()
-                    }
-                    false // Don't change selection until ad is shown
-                }
-                R.id.navigation_kalma -> {
-                    // Show ad before going back to main activity
-                    showInterstitialAd {
-                        finish()
-                    }
-                    false // Don't change selection until ad is shown
-                }
-                R.id.navigation_prayer -> {
-                    // Already in prayer times
-                    true
-                }
-                else -> false
-            }
-        }
 
         // Set up time pickers and alarm switches for each prayer time
         setupPrayerTime("Fajr", binding.fajrTime, binding.fajrAlarmSwitch)
@@ -239,11 +212,19 @@ class PrayerTimesActivity : AppCompatActivity() {
 
     private fun playAzan() {
         try {
+            if (mediaPlayer.isPlaying) {
+                mediaPlayer.stop()
+            }
+            mediaPlayer.reset()
             mediaPlayer = MediaPlayer.create(this, R.raw.azan)
-            mediaPlayer.setOnCompletionListener { it.release() }
+            mediaPlayer.setOnCompletionListener { 
+                it.release()
+                mediaPlayer = MediaPlayer()
+            }
             mediaPlayer.start()
         } catch (e: Exception) {
             e.printStackTrace()
+            Toast.makeText(this, "Error playing azan", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -255,12 +236,12 @@ class PrayerTimesActivity : AppCompatActivity() {
                 this.nativeAd = nativeAd
 
                 // Populate the native ad view
-                populateNativeAdView(nativeAd, binding.nativeAdView)
+                populateNativeAdView(nativeAd, binding.nativeAdView.root)
             }
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     // Hide the native ad view if ad fails to load
-                    binding.nativeAdView.visibility = android.view.View.GONE
+                    binding.nativeAdView.root.visibility = android.view.View.GONE
                 }
             })
             .withNativeAdOptions(
@@ -331,8 +312,15 @@ class PrayerTimesActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(alarmReceiver)
-        nativeAd?.destroy()
-        mediaPlayer.release()
+        try {
+            unregisterReceiver(alarmReceiver)
+            if (mediaPlayer.isPlaying) {
+                mediaPlayer.stop()
+            }
+            mediaPlayer.release()
+            nativeAd?.destroy()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 } 
